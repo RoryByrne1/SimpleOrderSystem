@@ -6,6 +6,7 @@ public class SimpleOrderSystem
   public static final int ADD_ORDER = 2;
   public static final int ADD_PRODUCT = 3;
   public static final int LIST_CUSTOMERS = 4;
+  public static final int OVERALL_TOTAL = 5;
   public static final int QUIT = 10;
   private Input in = new Input();
   private ArrayList<Customer> customers;
@@ -38,6 +39,7 @@ public class SimpleOrderSystem
     System.out.println(ADD_ORDER + ". Add Order");
     System.out.println(ADD_PRODUCT + ". Add Product");
     System.out.println(LIST_CUSTOMERS + ". List Customers");
+    System.out.println(OVERALL_TOTAL + ". Overall Total");
     System.out.println();
     System.out.println(QUIT + ". Quit");
   }
@@ -57,6 +59,9 @@ public class SimpleOrderSystem
          break;
       case LIST_CUSTOMERS:
         listCustomers();
+        break;
+      case OVERALL_TOTAL:
+        overallTotal();
         break;
       default:
         System.out.println("Invalid option - try again");
@@ -228,9 +233,45 @@ public class SimpleOrderSystem
     }
   }
 
+  public void overallTotal()
+  {
+    int total = 0;
+    for (Customer customer : customers)
+    {
+      total += customer.getTotalForAllOrders();
+    }
+    System.out.println("Total value of all orders for all customers: £" + total);
+  }
+
+  public void addExampleData()
+  {
+    Customer customer1 = new Customer("Rory","Pison","here","12","rp@gmail.com");
+    customers.add(customer1);
+    Customer customer2 = new Customer("Alex","Byrne","there","9","ab@gmail.com");
+    customers.add(customer2);
+    Product product1 = new Product(1,"a small bicycle",3);
+    products.add(product1);
+    Product product2 = new Product(2,"a hot dog machine",10);
+    products.add(product2);
+    Product product3 = new Product(3,"a HDMI cable",1);
+    products.add(product3);
+    Order order1 = new Order();
+    order1.add(new LineItem(4, getProduct(1)));
+    order1.add(new LineItem(1, getProduct(3)));
+    customer1.addOrder(order1);
+    Order order2 = new Order();
+    order2.add(new LineItem(1, getProduct(2)));
+    customer2.addOrder(order2);
+    Order order3 = new Order();
+    order3.add(new LineItem(11, getProduct(3)));
+    order3.add(new LineItem(1, getProduct(2)));
+    customer2.addOrder(order3);
+  }
+
   public static void main(String[] args)
   {
     SimpleOrderSystem orderSystem = new SimpleOrderSystem();
+    orderSystem.addExampleData();
     orderSystem.run();
   }
 }
