@@ -192,12 +192,40 @@ public class SimpleOrderSystem
     {
       return;
     }
-    System.out.print("Enter product description: ");
-    String description = in.nextLine();
+
     System.out.print("Enter product price: ");
     int price = in.nextInt();
-    in.nextLine();
-    Product product = new Product(code,description,price);
+
+    System.out.println("1. Book");
+    System.out.println("2. Album");
+    int choice = getMenuInput();
+    Product product;
+    switch (choice) {
+      case 1:
+      {
+        System.out.print("Enter title: ");
+        String title = in.nextLine();
+        System.out.print("Enter author: ");
+        String author = in.nextLine();
+        System.out.print("Enter year of publication: ");
+        int year = in.nextInt();
+        product = new Book(code, title, author, year, price);
+        break;
+      }
+      case 2:
+      {
+        System.out.print("Enter title: ");
+        String title = in.nextLine();
+        System.out.print("Enter artist: ");
+        String artist = in.nextLine();
+        System.out.print("Enter year of release: ");
+        int year = in.nextInt();
+        product = new Album(code, title, artist, year, price);
+        break;
+      }
+      default:
+        return;
+    }
     products.add(product);
   }
 
@@ -249,22 +277,22 @@ public class SimpleOrderSystem
     customers.add(customer1);
     Customer customer2 = new Customer("Alex","Byrne","there","9","ab@gmail.com");
     customers.add(customer2);
-    Product product1 = new Product(1,"a small bicycle",3);
+    Product product1 = new Book(10,"A Small Bicycle","Alex", 2024, 10);
     products.add(product1);
-    Product product2 = new Product(2,"a hot dog machine",10);
+    Product product2 = new Album(20,"hot dog machine","Rory", 2019, 5);
     products.add(product2);
-    Product product3 = new Product(3,"a HDMI cable",1);
+    Product product3 = new Album(21,"Best Of: Rory","Rory", 2023, 2);
     products.add(product3);
     Order order1 = new Order();
-    order1.add(new LineItem(4, getProduct(1)));
-    order1.add(new LineItem(1, getProduct(3)));
+    order1.add(new LineItem(4, getProduct(10)));
+    order1.add(new LineItem(1, getProduct(20)));
     customer1.addOrder(order1);
     Order order2 = new Order();
-    order2.add(new LineItem(1, getProduct(2)));
+    order2.add(new LineItem(1, getProduct(21)));
     customer2.addOrder(order2);
     Order order3 = new Order();
-    order3.add(new LineItem(11, getProduct(3)));
-    order3.add(new LineItem(1, getProduct(2)));
+    order3.add(new LineItem(11, getProduct(20)));
+    order3.add(new LineItem(1, getProduct(21)));
     customer2.addOrder(order3);
   }
 
